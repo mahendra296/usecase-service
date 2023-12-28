@@ -22,18 +22,7 @@ public class CountryAbstractFactory {
 
     @PostConstruct
     public void init() {
-        for (CountryActions action : countryActions) {
-            Country country = null;
-            for (Country c : Country.values()) {
-                if (c == action.getCountry()) {
-                    country = c;
-                    break;
-                }
-            }
-            if (country != null) {
-                countryActionsMap.put(country, action);
-            }
-        }
+        countryActionsMap = countryActions.stream().collect(Collectors.toMap(CountryActions::getCountry, Function.identity()));
     }
 
     public CountryActions load(Country country) {
